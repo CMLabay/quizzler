@@ -29,7 +29,6 @@ class ViewController: UIViewController {
         Question(q: "Chocolate affects a dog's heart and nervous system; a few ounces are enough to kill a small dog.", a: "True")
     ]
     var questionNum = 0
-//    var myQuiz = quiz()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -38,13 +37,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func AnswerBtnPressed(_ sender: UIButton) {
-        
         let userAns = sender.currentTitle
         let actualAns = quiz[questionNum].answer
         if userAns == actualAns {
-            print("correct")
+            sender.backgroundColor = UIColor.green
         } else {
-            print("wrong")
+            sender.backgroundColor = UIColor.red
         }
         if questionNum < quiz.count - 1 {
             questionNum += 1
@@ -52,10 +50,14 @@ class ViewController: UIViewController {
             questionNum = 0
         }
         
-        updateUI()
+        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
     }
-    func updateUI(){
+    @objc func updateUI(){
         questionLabel.text = quiz[questionNum].text
+        trueBtn.backgroundColor = UIColor.clear
+        falseBtn.backgroundColor = UIColor.clear
+        progressBar.progress = Float(questionNum + 1)/Float(quiz.count)
+        
     }
 }
 
